@@ -44,7 +44,7 @@
   </div>  
 </nav>
 
-    <form id="form1" runat="server">
+    <form id="form1" runat="server" visible="True">
     <div>
         <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
     </div>
@@ -52,24 +52,52 @@
 </body>
 </html>
     <br />
-    <br />
-    Informe o Codigo do Produto:
-     <asp:TextBox ID="txtCodigo" columns="10" runat="server"></asp:TextBox>
-    <asp:Button ID="btnCodigoFiltro" runat="server" Text="Filtrar" OnClick="btnCodigoFiltro_Click" />
-    <br />
-    Informe o Cidade:
-    <asp:TextBox ID="txtCidade" columns="10" runat="server"></asp:TextBox>
-    <asp:Button ID="btnCidadeFiltro" runat="server" Text="Filtrar" />
-    <br />
-    Informe o Cliente:
-    <asp:TextBox ID="txtCliente" columns="10" runat="server"></asp:TextBox>
-    <asp:Button ID="btnClienteFiltro" runat="server" Text="Filtrar" />
-    &nbsp;&nbsp;&nbsp;<br />
-    Periodo de Venda:
-    <asp:TextBox ID="txtCliente0" columns="10" runat="server"></asp:TextBox>
-    &nbsp;ate
-    <asp:TextBox ID="txtCliente1" columns="10" runat="server"></asp:TextBox>
-    &nbsp;<asp:Button ID="btnClienteFiltro0" runat="server" Text="Filtrar" />
-    &nbsp;
+    Informe o Filtro (Codigo ou Cliente or Cidade):
+     <asp:TextBox ID="txtFiltrar" columns="10" runat="server"></asp:TextBox>
+      
+    <input type="submit" id="btnSubmeter" value="Filtrar" runat="server" />
 <br />
+<div style="clear:both;padding:10px 0;">
+    <label id="info" runat="server"></label>
+</div>
+<br />
+    <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" DataKeyNames="idSolerun_saidaProduto" DataSourceID="SqlDataSource1" OnRowCreated="GridView1_RowCreated" BackColor="White" BorderColor="#999999" BorderStyle="Solid" BorderWidth="1px" CellPadding="3" ForeColor="Black" GridLines="Vertical">
+        <AlternatingRowStyle BackColor="#CCCCCC" />
+        <Columns>
+            <asp:BoundField DataField="idSolerun_saidaProduto" HeaderText="Codigo de Saida" InsertVisible="False" ReadOnly="True" SortExpression="idSolerun_saidaProduto" />
+            <asp:BoundField DataField="NomeFuncionario" HeaderText="Nome Funcionario" SortExpression="NomeFuncionario" />
+            <asp:BoundField DataField="NotaFiscal" HeaderText="Nota Fiscal" SortExpression="NotaFiscal" />
+            <asp:BoundField DataField="NomeProduto" HeaderText="Nome do Produto" SortExpression="NomeProduto" />
+            <asp:BoundField DataField="Descricao" HeaderText="Descriço" SortExpression="Descricao" />
+            <asp:BoundField DataField="Codigo" HeaderText="Codigo" SortExpression="Codigo" />
+            <asp:BoundField DataField="Cliente" HeaderText="Cliente" SortExpression="Cliente" />
+            <asp:BoundField DataField="Litragem" HeaderText="Litragem" SortExpression="Litragem" />
+            <asp:BoundField DataField="QuantidadeSaida" HeaderText="Quantidade p/ Saida" SortExpression="QuantidadeSaida" />
+            <asp:BoundField DataField="ValorIndividual" HeaderText="Valor Individual" SortExpression="ValorIndividual" />
+            <asp:BoundField DataField="ValorTotal" HeaderText="ValorTotal" SortExpression="ValorTotal" />
+            <asp:BoundField DataField="DescontoFuncionario" HeaderText="Desconto p/ Funcionario" SortExpression="DescontoFuncionario" />
+            <asp:BoundField DataField="Desconto" HeaderText="Desconto" SortExpression="Desconto" />
+            <asp:BoundField DataField="ValorDesconto" HeaderText="Valor do Desconto" SortExpression="ValorDesconto" />
+            <asp:BoundField DataField="Cidade" HeaderText="Cidade" SortExpression="Cidade" />
+            <asp:BoundField DataField="Telefone" HeaderText="Telefone" SortExpression="Telefone" />
+            <asp:BoundField DataField="data" HeaderText="Data" SortExpression="data" />
+            <asp:BoundField DataField="quantidadeLitragem" HeaderText="Quantidade p/ Litragem" SortExpression="quantidadeLitragem" />
+        </Columns>
+        <FooterStyle BackColor="#CCCCCC" />
+        <HeaderStyle BackColor="Black" Font-Bold="True" ForeColor="White" />
+        <PagerStyle BackColor="#999999" ForeColor="Black" HorizontalAlign="Center" />
+        <SelectedRowStyle BackColor="#000099" Font-Bold="True" ForeColor="White" />
+        <SortedAscendingCellStyle BackColor="#F1F1F1" />
+        <SortedAscendingHeaderStyle BackColor="#808080" />
+        <SortedDescendingCellStyle BackColor="#CAC9C9" />
+        <SortedDescendingHeaderStyle BackColor="#383838" />
+    </asp:GridView>
+    <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:dbcerv_solerunConnectionString %>" ProviderName="<%$ ConnectionStrings:dbcerv_solerunConnectionString.ProviderName %>" 
+        SelectCommand="SELECT idSolerun_saidaProduto, NomeFuncionario, NotaFiscal, NomeProduto, Descricao, Codigo, Cliente, Litragem, QuantidadeSaida, ValorIndividual, ValorTotal, DescontoFuncionario, Desconto, ValorDesconto, Cidade, Telefone, data, quantidadeLitragem FROM solerun_saidaproduto" 
+     FilterExpression="(CONVERT(Codigo, 'System.String') like '%{0}%') or ([Cidade] LIKE '%{0}%') or ([Cliente] LIKE '%{0}%')">
+        
+        <FilterParameters>  
+     <asp:ControlParameter Name="Filtar" ControlID="txtFiltrar" PropertyName="Text" />            
+</FilterParameters>
+    </asp:SqlDataSource>
     </form>

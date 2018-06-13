@@ -46,5 +46,14 @@ namespace ProjectSolerun.Pages
         {
             
         }
+
+        protected void GridView1_RowCreated(object sender, GridViewRowEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtFiltrar.Text))
+            {
+                info.InnerText = "Encontrado(s) " + GridView1.Rows.Count +
+                    " linhas que atendem o critério '" + txtFiltrar.Text + "'.";
+            }
+        }
     }
 }
